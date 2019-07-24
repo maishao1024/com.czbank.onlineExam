@@ -1,4 +1,4 @@
-package com.qexz.util;
+package com.onlineExam.util;
 
 import java.security.MessageDigest;
 

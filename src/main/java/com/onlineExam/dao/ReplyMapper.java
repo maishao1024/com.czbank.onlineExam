@@ -1,6 +1,6 @@
-package com.qexz.dao;
+package com.onlineExam.dao;
 
-import com.qexz.model.Reply;
+import com.onlineExam.model.Reply;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

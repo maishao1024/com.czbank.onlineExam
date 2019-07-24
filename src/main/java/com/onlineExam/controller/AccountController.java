@@ -1,14 +1,14 @@
-package com.qexz.controller;
+package com.onlineExam.controller;
 
-import com.qexz.common.QexzConst;
-import com.qexz.dto.PageResult;
-import com.qexz.exception.QexzWebError;
-import com.qexz.model.Account;
-import com.qexz.model.Contest;
-import com.qexz.model.Grade;
-import com.qexz.model.Subject;
-import com.qexz.service.*;
-import com.qexz.util.MD5;
+import com.onlineExam.common.QexzConst;
+import com.onlineExam.dto.PageResult;
+import com.onlineExam.exception.QexzWebError;
+import com.onlineExam.model.Account;
+import com.onlineExam.model.Contest;
+import com.onlineExam.model.Grade;
+import com.onlineExam.model.Subject;
+import com.onlineExam.service.*;
+import com.onlineExam.util.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,6 +1,6 @@
-package com.qexz.service;
+package com.onlineExam.service;
 
-import com.qexz.model.Subject;
+import com.onlineExam.model.Subject;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.qexz.model;
+package com.onlineExam.model;
 
 import lombok.Data;
 

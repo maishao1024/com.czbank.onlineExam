@@ -1,4 +1,4 @@
-package com.qexz.common;
+package com.onlineExam.common;
 
 public class QexzConst {
 

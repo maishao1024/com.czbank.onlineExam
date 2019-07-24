@@ -1,9 +1,9 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.qexz.dao.GradeMapper;
-import com.qexz.model.Grade;
-import com.qexz.service.GradeService;
+import com.onlineExam.dao.GradeMapper;
+import com.onlineExam.model.Grade;
+import com.onlineExam.service.GradeService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

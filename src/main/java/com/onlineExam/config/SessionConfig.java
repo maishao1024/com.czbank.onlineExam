@@ -1,4 +1,4 @@
-package com.qexz.config;
+package com.onlineExam.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;

@@ -1,9 +1,9 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.qexz.dao.CommentMapper;
-import com.qexz.model.Comment;
-import com.qexz.service.CommentService;
+import com.onlineExam.dao.CommentMapper;
+import com.onlineExam.model.Comment;
+import com.onlineExam.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {

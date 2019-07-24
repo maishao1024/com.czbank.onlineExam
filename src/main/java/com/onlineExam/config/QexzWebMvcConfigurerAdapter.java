@@ -1,6 +1,6 @@
-package com.qexz.config;
+package com.onlineExam.config;
 
-import com.qexz.common.QexzConst;
+import com.onlineExam.common.QexzConst;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

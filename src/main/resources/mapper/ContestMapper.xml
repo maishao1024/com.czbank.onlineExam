@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qexz.dao.ContestMapper" >
-    <resultMap id="BaseResultMap" type="com.qexz.model.Contest" >
+<mapper namespace="com.onlineExam.dao.ContestMapper" >
+    <resultMap id="BaseResultMap" type="com.onlineExam.model.Contest" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="total_score" property="totalScore" jdbcType="INTEGER" />
@@ -16,7 +16,7 @@
         id,title,total_score,subject_id,start_time,end_time,create_time,update_time,state
     </sql>
 
-    <insert id="insertContest" parameterType="com.qexz.model.Contest" >
+    <insert id="insertContest" parameterType="com.onlineExam.model.Contest" >
         insert into t_penguin_contest
         (title, total_score, subject_id, start_time, end_time, state)
         values (#{contest.title}, #{contest.totalScore}, #{contest.subjectId},
@@ -28,7 +28,7 @@
         where id = #{id}
     </delete>
 
-    <update id="updateContestById" parameterType="com.qexz.model.Contest">
+    <update id="updateContestById" parameterType="com.onlineExam.model.Contest">
         UPDATE t_penguin_contest
         SET
         title = #{contest.title}, total_score = #{contest.totalScore},

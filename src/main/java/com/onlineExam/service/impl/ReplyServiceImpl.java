@@ -1,8 +1,8 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
-import com.qexz.dao.ReplyMapper;
-import com.qexz.model.Reply;
-import com.qexz.service.ReplyService;
+import com.onlineExam.dao.ReplyMapper;
+import com.onlineExam.model.Reply;
+import com.onlineExam.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

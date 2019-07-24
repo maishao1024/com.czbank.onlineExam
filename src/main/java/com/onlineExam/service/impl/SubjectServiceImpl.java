@@ -1,11 +1,10 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.qexz.common.QexzConst;
-import com.qexz.controller.DefaultController;
-import com.qexz.dao.SubjectMapper;
-import com.qexz.model.Subject;
-import com.qexz.service.SubjectService;
+import com.onlineExam.common.QexzConst;
+import com.onlineExam.dao.SubjectMapper;
+import com.onlineExam.model.Subject;
+import com.onlineExam.service.SubjectService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

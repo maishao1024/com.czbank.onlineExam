@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qexz.dao.PostMapper" >
-    <resultMap id="BaseResultMap" type="com.qexz.model.Post" >
+<mapper namespace="com.onlineExam.dao.PostMapper" >
+    <resultMap id="BaseResultMap" type="com.onlineExam.model.Post" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="author_id" property="authorId" jdbcType="INTEGER" />
         <result column="html_content" property="htmlContent" jdbcType="LONGVARCHAR" />
@@ -17,13 +17,13 @@
         update_time, last_reply_time, reply_num, title
     </sql>
 
-    <insert id="insertPost" parameterType="com.qexz.model.Post" >
+    <insert id="insertPost" parameterType="com.onlineExam.model.Post" >
         insert into t_penguin_post
         (author_id, title, html_content, text_content)
         values (#{post.authorId}, #{post.title}, #{post.htmlContent}, #{post.textContent})
     </insert>
 
-    <update id="updatePostById" parameterType="com.qexz.model.Post">
+    <update id="updatePostById" parameterType="com.onlineExam.model.Post">
         UPDATE t_penguin_post
         SET
           title = #{title}, html_content = #{post.htmlContent}, text_content = #{post.textContent}

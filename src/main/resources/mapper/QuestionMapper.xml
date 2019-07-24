@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qexz.dao.QuestionMapper" >
-    <resultMap id="BaseResultMap" type="com.qexz.model.Question" >
+<mapper namespace="com.onlineExam.dao.QuestionMapper" >
+    <resultMap id="BaseResultMap" type="com.onlineExam.model.Question" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -26,7 +26,7 @@
         update_time,score,difficulty,state
     </sql>
 
-    <insert id="insertQuestion" parameterType="com.qexz.model.Question" >
+    <insert id="insertQuestion" parameterType="com.onlineExam.model.Question" >
         insert into t_penguin_question
         (title, content, question_type, option_a, option_b, option_c,
         option_d, answer, parse, subject_id, contest_id, score, difficulty,
@@ -42,7 +42,7 @@
         where id = #{id}
     </delete>
 
-    <update id="updateQuestionById" parameterType="com.qexz.model.Question">
+    <update id="updateQuestionById" parameterType="com.onlineExam.model.Question">
         UPDATE t_penguin_question
         SET
           title = #{question.title}, content = #{question.content},

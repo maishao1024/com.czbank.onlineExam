@@ -1,4 +1,4 @@
-package com.qexz;
+package com.onlineExam;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

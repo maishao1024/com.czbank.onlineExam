@@ -1,6 +1,6 @@
-package com.qexz.dto;
+package com.onlineExam.dto;
 
-import com.qexz.exception.QexzWebError;
+import com.onlineExam.exception.QexzWebError;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
-package com.qexz.service;
+package com.onlineExam.service;
 
-import com.qexz.model.Reply;
+import com.onlineExam.model.Reply;
 
 import java.util.List;
 

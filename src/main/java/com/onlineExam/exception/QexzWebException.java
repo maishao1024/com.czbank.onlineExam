@@ -1,4 +1,4 @@
-package com.qexz.exception;
+package com.onlineExam.exception;
 
 public class QexzWebException extends Exception {
 

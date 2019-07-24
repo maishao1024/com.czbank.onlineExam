@@ -1,4 +1,4 @@
-package com.qexz.config;
+package com.onlineExam.config;
 
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.filter.stat.StatFilter;

@@ -1,4 +1,4 @@
-package com.qexz;
+package com.onlineExam;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

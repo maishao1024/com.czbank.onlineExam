@@ -1,12 +1,12 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.qexz.dao.ContestMapper;
-import com.qexz.dao.QuestionMapper;
-import com.qexz.model.Contest;
-import com.qexz.model.Question;
-import com.qexz.model.Subject;
-import com.qexz.service.QuestionService;
+import com.onlineExam.dao.ContestMapper;
+import com.onlineExam.dao.QuestionMapper;
+import com.onlineExam.model.Contest;
+import com.onlineExam.model.Question;
+import com.onlineExam.model.Subject;
+import com.onlineExam.service.QuestionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.qexz.controller;
+package com.onlineExam.controller;
 
-import com.qexz.dto.PageResult;
-import com.qexz.model.Question;
-import com.qexz.service.QuestionService;
+import com.onlineExam.dto.PageResult;
+import com.onlineExam.model.Question;
+import com.onlineExam.service.QuestionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,15 +1,14 @@
-package com.qexz.service.impl;
+package com.onlineExam.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.qexz.common.QexzConst;
-import com.qexz.dao.AccountMapper;
-import com.qexz.model.Account;
-import com.qexz.service.AccountService;
+import com.onlineExam.common.QexzConst;
+import com.onlineExam.dao.AccountMapper;
+import com.onlineExam.model.Account;
+import com.onlineExam.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {

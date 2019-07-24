@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qexz.dao.GradeMapper" >
-    <resultMap id="BaseResultMap" type="com.qexz.model.Grade" >
+<mapper namespace="com.onlineExam.dao.GradeMapper" >
+    <resultMap id="BaseResultMap" type="com.onlineExam.model.Grade" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="student_id" property="studentId" jdbcType="INTEGER" />
         <result column="contest_id" property="contestId" jdbcType="INTEGER" />
@@ -18,7 +18,7 @@
         answer_json,create_time,finish_time,state
     </sql>
 
-    <insert id="insertGrade" parameterType="com.qexz.model.Grade" >
+    <insert id="insertGrade" parameterType="com.onlineExam.model.Grade" >
         insert into t_penguin_grade
         (student_id, contest_id, result, auto_result, manul_result,
         answer_json)
@@ -31,7 +31,7 @@
         where id = #{id}
     </delete>
 
-    <update id="updateGradeById" parameterType="com.qexz.model.Grade">
+    <update id="updateGradeById" parameterType="com.onlineExam.model.Grade">
         UPDATE t_penguin_grade
         SET
         result = #{grade.result}, manul_result = #{grade.manulResult},

@@ -1,6 +1,6 @@
-package com.qexz.service;
+package com.onlineExam.service;
 
-import com.qexz.model.Post;
+import com.onlineExam.model.Post;
 
 import java.util.Map;
 

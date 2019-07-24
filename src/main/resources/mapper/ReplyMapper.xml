@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qexz.dao.ReplyMapper" >
-    <resultMap id="BaseResultMap" type="com.qexz.model.Reply" >
+<mapper namespace="com.onlineExam.dao.ReplyMapper" >
+    <resultMap id="BaseResultMap" type="com.onlineExam.model.Reply" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_id" property="userId" jdbcType="INTEGER" />
         <result column="atuser_id" property="atuserId" jdbcType="INTEGER" />
@@ -14,7 +14,7 @@
         id,user_id,atuser_id,post_id,comment_id,content,create_time
     </sql>
 
-    <insert id="insertReply" parameterType="com.qexz.model.Reply" >
+    <insert id="insertReply" parameterType="com.onlineExam.model.Reply" >
         insert into t_penguin_reply
         (user_id, atuser_id, post_id, comment_id, content)
         values (#{reply.userId}, #{reply.atuserId},
