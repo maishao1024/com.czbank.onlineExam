@@ -8,9 +8,8 @@ import java.util.Map;
 /**
  * 封装json对象，所有返回结果都使用它
  */
-public class AjaxResult extends HashMap<String, Object> {
+public class PageResult extends HashMap<String, Object> {
 
-    //TODO::深度依赖了，后面需要统一throw
     @Deprecated
     public static final String COMMON_ERROR = "接口调用出错";
 
@@ -19,48 +18,48 @@ public class AjaxResult extends HashMap<String, Object> {
     public static final String DATA = "data";
     public static final String CODE = "code";
 
-    public static final AjaxResult BLANK_SUCCESS = new AjaxResult().setSuccess(true);
+    public static final PageResult BLANK_SUCCESS = new PageResult().setSuccess(true);
 
-    private static final Map<QexzWebError, AjaxResult> map = new HashMap<>();
+    private static final Map<QexzWebError, PageResult> map = new HashMap<>();
 
-    public static AjaxResult fixedError(QexzWebError qexzWebError) {
+    public static PageResult fixedError(QexzWebError qexzWebError) {
         if (map.get(qexzWebError) == null) {
-            synchronized (AjaxResult.class) {
-                map.computeIfAbsent(qexzWebError, e -> new AjaxResult().setState(e));
+            synchronized (PageResult.class) {
+                map.computeIfAbsent(qexzWebError, e -> new PageResult().setState(e));
             }
         }
         return map.get(qexzWebError);
     }
 
-    public AjaxResult() {
+    public PageResult() {
         put(MESSAGE, "");
         put(SUCCESS, false);
     }
 
-    public AjaxResult setState(QexzWebError qexzWebError) {
+    public PageResult setState(QexzWebError qexzWebError) {
         put(MESSAGE, qexzWebError.errMsg);
         put(CODE, qexzWebError.code);
         put(SUCCESS, false);
         return this;
     }
 
-    private AjaxResult setCode(int code) {
+    private PageResult setCode(int code) {
         put(CODE, code);
         return this;
     }
 
-    public AjaxResult setMessage(String msg) {
+    public PageResult setMessage(String msg) {
         setSuccess(false);
         put(MESSAGE, msg);
         return this;
     }
 
-    public AjaxResult setSuccess(boolean ret) {
+    public PageResult setSuccess(boolean ret) {
         put(SUCCESS, ret);
         return this;
     }
 
-    public AjaxResult setData(Object obj) {
+    public PageResult setData(Object obj) {
         setSuccess(true);
         put(DATA, obj);
         return this;
