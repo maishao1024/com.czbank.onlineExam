@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>在线考试系统</title>
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-dark.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
@@ -23,15 +23,15 @@
     <a th:href="@{/contest/index}" href="#" class="item">
         <i class="desktop icon"></i>在线考试
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
+        <i class="user icon"></i>
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
-                <i class="user icon"></i>我的主页
+            <a class="item" th:href="@{/user/profile}">
+                <i class="user icon"></i>个人信息
             </a>
             <a class="item" id="logout">
                 <i class="sign out icon"></i>退出
@@ -182,19 +182,6 @@ public static void main(String[] args){
                         zzqnxx@foxmail.com
                     </div>
                 </div>
-            </div>
-            <div class="right aligned column">
-                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
-                <br />
-                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
-                服务器时间：<span id="current_server_timer"></span>
-                <br />
-                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
-                <!--
-                TODO::pv,uv统计
-                <span id='cnzz_stat_icon_1261763113'></span>
-                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
-                -->
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@ public class Grade {
 
     private int state;
 
-    private Account student;
+    private User student;
 
     private Contest contest;
 

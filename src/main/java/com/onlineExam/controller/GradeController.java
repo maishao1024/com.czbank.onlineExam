@@ -2,9 +2,9 @@ package com.onlineExam.controller;
 
 import com.onlineExam.common.QexzConst;
 import com.onlineExam.dto.PageResult;
-import com.onlineExam.model.Account;
 import com.onlineExam.model.Grade;
 import com.onlineExam.model.Question;
+import com.onlineExam.model.User;
 import com.onlineExam.service.GradeService;
 import com.onlineExam.service.QuestionService;
 import org.apache.commons.logging.Log;
@@ -37,7 +37,7 @@ public class GradeController {
     @ResponseBody
     public PageResult submitContest(HttpServletRequest request, @RequestBody Grade grade) {
         PageResult pageResult = new PageResult();
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         List<String> answerStrs = Arrays.asList(grade.getAnswerJson().split(QexzConst.SPLIT_CHAR));
         int autoResult = 0;
         List<Question> questions = questionService.getQuestionsByContestId(grade.getContestId());
@@ -49,7 +49,7 @@ public class GradeController {
                 autoResult += question.getScore();
             }
         }
-        grade.setStudentId(currentAccount.getId());
+        grade.setStudentId(currentUser.getId());
         grade.setResult(autoResult);
         grade.setAutoResult(autoResult);
         grade.setManulResult(0);

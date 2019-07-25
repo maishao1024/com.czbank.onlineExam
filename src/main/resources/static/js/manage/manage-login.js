@@ -57,5 +57,5 @@ var adminLoginPage = {
                 }
             }, "json");
         }
-    },
+    }
 };

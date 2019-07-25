@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>在线考试系统</title>
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -22,18 +22,17 @@
         <i class="desktop icon"></i>在线考试
     </a>
     <a th:href="@{/problemset/list}" class="item">
-        <i class="list layout icon"></i>题库中心
+        <i class="list layout icon"></i>在线签到
     </a>
-    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_user == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:if="${current_account != null}">
-        <!--<img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />-->
+    <div class="ui simple dropdown right item" th:if="${current_user != null}">
         <i class="user icon"></i>
-        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+        <span th:text="${current_user.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/account/profile}">
-                <i class="user icon"></i>我的主页
+            <a class="item" th:href="@{/user/profile}">
+                <i class="user icon"></i>个人信息
             </a>
             <a class="item" id="logout">
                 <i class="sign out icon"></i>退出
@@ -45,9 +44,7 @@
     <div id="main_background" th:style="'background-image: url('+${#httpServletRequest.getContextPath()}+'/img/bg.jpg);'">
         <div class="logo_panel">
             <br/><br/><br/><br/><br/><br/>
-            <!--<img th:src="@{/img/logo_flat.png}" style="max-height: 80px; height:80px;" /><br />-->
-            <!--<span style="font-size: 1.2em; font-weight: 500; letter-spacing: 0.5em; line-height: 3.2em; color: #fff;">在线考试教学辅助系统1.0</span>-->
-            <span style="font-size: 1.8em; font-weight: 500; letter-spacing: 0.5em; line-height: 3.2em; color: #fff;">浙商银行股份有限公司</span>
+            <span style="font-size: 1.8em; font-weight: 500; letter-spacing: 0.5em; line-height: 3.2em; color: #fff;">浙商银行在线考试系统</span>
             <br />
         </div>
     </div>
@@ -58,10 +55,6 @@
     <div class="content">
         <form class="ui form" id="loginModalForm">
             <div class="ui hidden negative message" id="loginModalErrorMessage">
-                <!--
-                <div class="header">错误提示</div>
-                <p></p>
-                -->
             </div>
             <div class="field required">
                 <label>账号</label>
@@ -77,19 +70,12 @@
                     <i class="lock icon"></i>
                 </div>
             </div>
-            <div class="field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
-                    <label>记住登录</label>
-                </div>
-            </div>
             <div class="ui button" id="loginModalCloseButton">关闭</div>
             <div class="ui primary button" id="loginModalSubmitButton">登录</div>
         </form>
     </div>
 </div>
 <script th:inline="javascript">
-    /*<![CDATA[*/
     var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){

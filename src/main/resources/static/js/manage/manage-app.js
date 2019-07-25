@@ -95,17 +95,11 @@ var app = {
         deleteSubjectUrl: function () {
             return app.data.contextPath+"/subject/api/deleteSubject/";
         },
-        managePostListUrl: function () {
-            return app.data.contextPath+"/manage/post/list"
-        },
         updatePostUrl: function () {
             return app.data.contextPath+"/post/api/updatePost"
         },
         deletePostUrl: function () {
             return app.data.contextPath+"/post/api/deletePost/";
-        },
-        manageCommentListUrl: function () {
-            return app.data.contextPath+"/manage/comment/list"
         },
         deleteCommentUrl: function () {
             return app.data.contextPath+"/comment/api/deleteComment/";

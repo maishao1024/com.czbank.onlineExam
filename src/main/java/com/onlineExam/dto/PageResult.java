@@ -1,6 +1,6 @@
 package com.onlineExam.dto;
 
-import com.onlineExam.exception.QexzWebError;
+import com.onlineExam.exception.ERRORCODE;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +20,15 @@ public class PageResult extends HashMap<String, Object> {
 
     public static final PageResult BLANK_SUCCESS = new PageResult().setSuccess(true);
 
-    private static final Map<QexzWebError, PageResult> map = new HashMap<>();
+    private static final Map<ERRORCODE, PageResult> map = new HashMap<>();
 
-    public static PageResult fixedError(QexzWebError qexzWebError) {
-        if (map.get(qexzWebError) == null) {
+    public static PageResult fixedError(ERRORCODE ERRORCODE) {
+        if (map.get(ERRORCODE) == null) {
             synchronized (PageResult.class) {
-                map.computeIfAbsent(qexzWebError, e -> new PageResult().setState(e));
+                map.computeIfAbsent(ERRORCODE, e -> new PageResult().setState(e));
             }
         }
-        return map.get(qexzWebError);
+        return map.get(ERRORCODE);
     }
 
     public PageResult() {
@@ -36,9 +36,9 @@ public class PageResult extends HashMap<String, Object> {
         put(SUCCESS, false);
     }
 
-    public PageResult setState(QexzWebError qexzWebError) {
-        put(MESSAGE, qexzWebError.errMsg);
-        put(CODE, qexzWebError.code);
+    public PageResult setState(ERRORCODE ERRORCODE) {
+        put(MESSAGE, ERRORCODE.errMsg);
+        put(CODE, ERRORCODE.code);
         put(SUCCESS, false);
         return this;
     }
@@ -53,6 +53,7 @@ public class PageResult extends HashMap<String, Object> {
         put(MESSAGE, msg);
         return this;
     }
+
 
     public PageResult setSuccess(boolean ret) {
         put(SUCCESS, ret);

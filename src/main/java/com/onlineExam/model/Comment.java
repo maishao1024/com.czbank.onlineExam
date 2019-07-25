@@ -17,7 +17,7 @@ public class Comment {
 
     private Date createTime;
 
-    Account user;
+    User user;
 
     List<Reply> replies;
 }

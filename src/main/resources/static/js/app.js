@@ -92,10 +92,6 @@ var app = {
          */
         window.setInterval("app.run();", 1000);
         /**
-         * 记住登录开关效果
-         */
-        $('.ui.toggle.checkbox').checkbox();
-        /**
          * 登录模态框关闭按钮触发
          */
         $('#loginModalCloseButton').click(function (e) {
@@ -134,8 +130,6 @@ var app = {
         var currTime = localDateTime.year + "-" + localDateTime.monthValue
             + "-" + localDateTime.dayOfMonth + " " + localDateTime.hour
             + ":" + localDateTime.minute + ":" + localDateTime.second;
-        //console.log("currTime = " + currTime);
-        //console.log("new Date(currTime).valueOf() = " + new Date(currTime).valueOf());
         return new Date(currTime).valueOf();
     },
     /**
@@ -226,16 +220,11 @@ var app = {
                 username: username,
                 password: password
             }, function (result) {
-                // console.log("result.success = " + result.success);
-                // console.log("result.success = " + result['success']);
-                // console.log(result);
                 if (result && result['success']) {
                     if ($('#rememberMe').is(":checked")) {
-                        // 把账号信息记入cookie
                         $.cookie('penguinUsername', username, {expires: 7, path: '/'});
                         $.cookie('penguinPassword', password, {expires: 7, path: '/'});
                     }
-                    // 验证通过 刷新页面
                     window.location.reload();
                 } else {
                     $('#loginModalErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +

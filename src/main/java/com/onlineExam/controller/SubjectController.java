@@ -59,21 +59,21 @@ public class SubjectController {
 //        try {
 //            String username = request.getParameter("username");
 //            String password = request.getParameter("password");
-//            Account current_account = accountService.getAccountByUsername(username);
+//            User current_account = accountService.getAccountByUsername(username);
 //            if(current_account != null) {
 //                String pwd = MD5.md5(QexzConst.MD5_SALT+password);
 //                if(pwd.equals(current_account.getPassword())) {
 //                    request.getSession().setAttribute(QexzConst.CURRENT_ACCOUNT,current_account);
 //                    pageResult.setData(current_account);
 //                } else {
-//                    return PageResult.fixedError(QexzWebError.WRONG_PASSWORD);
+//                    return PageResult.fixedError(ERRORCODE.WRONG_PASSWORD);
 //                }
 //            } else {
-//                return PageResult.fixedError(QexzWebError.WRONG_USERNAME);
+//                return PageResult.fixedError(ERRORCODE.WRONG_USERNAME);
 //            }
 //        } catch (Exception e) {
 //            LOG.error(e.getMessage(), e);
-//            return PageResult.fixedError(QexzWebError.COMMON);
+//            return PageResult.fixedError(ERRORCODE.COMMON);
 //        }
         return pageResult;
     }

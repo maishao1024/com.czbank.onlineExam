@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title>GDUFE在线考试系统</title>
+    <title>在线考试系统</title>
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/contest/detail.css}" />
@@ -57,11 +57,11 @@
                     <tbody>
                     <tr>
                         <td><span style="font-weight: bolder;">考生学号:</span></td>
-                        <td><span th:text="${current_account.username}"></span></td>
+                        <td><span th:text="${current_user.username}"></span></td>
                     </tr>
                     <tr>
                         <td><span style="font-weight: bolder;">当前考生:</span></td>
-                        <td><span th:text="${current_account.name}"></span></td>
+                        <td><span th:text="${current_user.name}"></span></td>
                     </tr>
                     <tr>
                         <td><span style="font-weight: bolder;">剩余时间:</span></td>
@@ -153,19 +153,6 @@
                         zzqnxx@foxmail.com
                     </div>
                 </div>
-            </div>
-            <div class="right aligned column">
-                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
-                <br />
-                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
-                服务器时间：<span id="current_server_timer"></span>
-                <br />
-                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
-                <!--
-                TODO::pv,uv统计
-                <span id='cnzz_stat_icon_1261763113'></span>
-                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
-                -->
             </div>
         </div>
     </div>

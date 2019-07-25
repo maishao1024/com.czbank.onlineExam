@@ -2,9 +2,9 @@ package com.onlineExam.exception;
 
 public class QexzWebException extends Exception {
 
-    public final QexzWebError qexzWebError;
+    public final ERRORCODE ERRORCODE;
 
-    public QexzWebException(QexzWebError qexzWebError) {
-        this.qexzWebError = qexzWebError;
+    public QexzWebException(ERRORCODE ERRORCODE) {
+        this.ERRORCODE = ERRORCODE;
     }
 }

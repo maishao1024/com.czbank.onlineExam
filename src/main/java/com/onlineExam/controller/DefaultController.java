@@ -22,7 +22,7 @@ public class DefaultController {
     private static Log LOG = LogFactory.getLog(DefaultController.class);
 
     @Autowired
-    private AccountService accountService;
+    private UserService userService;
     @Autowired
     private SubjectService subjectService;
     @Autowired
@@ -41,8 +41,8 @@ public class DefaultController {
      */
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String home(HttpServletRequest request, Model model) {
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         return "/home";
     }
 
@@ -55,8 +55,8 @@ public class DefaultController {
                                Model model) {
         contestService.updateStateToStart();
         contestService.updateStateToEnd();
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
         model.addAttribute(QexzConst.DATA, data);
         return "/contest/index";
@@ -69,10 +69,10 @@ public class DefaultController {
     public String contestDetail(HttpServletRequest request,
                                @PathVariable("contestId") int contestId,
                                Model model) {
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         Contest contest = contestService.getContestById(contestId);
-        if (currentAccount == null || contest.getStartTime().getTime() > System.currentTimeMillis()
+        if (currentUser == null || contest.getStartTime().getTime() > System.currentTimeMillis()
                 || contest.getEndTime().getTime() < System.currentTimeMillis()) {
             return "redirect:/contest/index";
         }
@@ -92,10 +92,10 @@ public class DefaultController {
      */
     @RequestMapping(value="/problemset/list", method= RequestMethod.GET)
     public String problemSet(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         Map<String, Object> data = subjectService.getSubjects(page, QexzConst.subjectPageSize);
 
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemset";
     }
@@ -110,12 +110,12 @@ public class DefaultController {
                               @RequestParam(value = "content", defaultValue = "") String content,
                               @RequestParam(value = "difficulty", defaultValue = "0") int difficulty,
                               Model model) {
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         Map<String, Object> data = questionService.getQuestionsByProblemsetIdAndContentAndDiffculty(page, QexzConst.questionPageSize,
                 problemsetId, content, difficulty);
         Subject subject = subjectService.getSubjectById(problemsetId);
         data.put("subject", subject);
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemlist";
     }
@@ -128,13 +128,13 @@ public class DefaultController {
                                 @PathVariable("problemsetId") Integer problemsetId,
                                 @PathVariable("problemId") Integer problemId,
                                 Model model) {
-        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         Map<String, Object> data = new HashMap<>();
         Question question = questionService.getQuestionById(problemId);
         Subject subject = subjectService.getSubjectById(problemsetId);
         data.put("question", question);
         data.put("subject", subject);
-        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
         model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemdetail";
     }

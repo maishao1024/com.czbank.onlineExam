@@ -112,10 +112,10 @@ public class DruidConfig {
             datasource.setConnectionProperties(connectionProperties);
         }
 
-        List<Filter> filters = new ArrayList<>();
-        filters.add(statFilter());
-        filters.add(wallFilter());
-        datasource.setProxyFilters(filters);
+//        List<Filter> filters = new ArrayList<>();
+//        filters.add(statFilter());
+//        filters.add(wallFilter());
+//        datasource.setProxyFilters(filters);
 
         return datasource;
     }

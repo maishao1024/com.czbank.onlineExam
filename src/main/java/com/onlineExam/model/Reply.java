@@ -20,8 +20,8 @@ public class Reply {
 
     private Date createTime;
 
-    private Account user;
+    private User user;
 
-    private Account atuser;
+    private User atuser;
 
 }

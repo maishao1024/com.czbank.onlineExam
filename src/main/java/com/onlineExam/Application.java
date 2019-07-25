@@ -7,9 +7,11 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
+import tk.mybatis.spring.annotation.MapperScan;
 
 import java.util.Date;
 
+@MapperScan(basePackages = {"com.onlineExam.dao"})
 @SpringBootApplication
 public class Application {
 

@@ -37,7 +37,7 @@ public class LngAndLatUtil {
      */
     public static Map<String, Double> getLngAndLat(String address) {
         Map<String, Double> map = new HashMap<>();
-        String url = "http://api.map.baidu.com/geocoder/v2/?address=" + address + "&output=json&ak=LANCZEa6OYhoNKdTgm58clg1fBaHx8GR";
+        String url = "http://api.map.baidu.com/location/ip?ip=&ak=LANCZEa6OYhoNKdTgm58clg1fBaHx8GR";
         String json = loadJSON(url);
         JSONObject obj;
         try {

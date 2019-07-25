@@ -24,6 +24,6 @@ public class Post {
 
     private String title;
 
-    private Account author;
+    private User author;
 
 }

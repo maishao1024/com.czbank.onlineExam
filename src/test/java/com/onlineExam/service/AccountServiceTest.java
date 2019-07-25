@@ -1,7 +1,7 @@
 //package com.qexz.service;
 //
 //import com.qexz.common.QexzConst;
-//import com.qexz.model.Account;
+//import com.qexz.model.User;
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 //import org.junit.Test;
@@ -21,11 +21,11 @@
 //    private static Log LOG = LogFactory.getLog(AccountServiceTest.class);
 //
 //    @Autowired
-//    private AccountService accountService;
+//    private UserService accountService;
 //
 //    @Test
 //    public void addAccount() throws Exception {
-//        Account account = new Account();
+//        User account = new User();
 //        account.setName("曾庆熙");
 //        account.setUsername("14251104208");
 //        account.setPassword("123456");
@@ -40,7 +40,7 @@
 //
 //    @Test
 //    public void updateAccount() throws Exception {
-//        Account account = new Account();
+//        User account = new User();
 //        account.setId(1);
 //        account.setPassword("123456");
 //        account.setQq("1394176783");
@@ -59,7 +59,7 @@
 //
 //    @Test
 //    public void getAccountByUsername() throws Exception {
-//        Account account = accountService.getAccountByUsername("14251104208");
+//        User account = accountService.getAccountByUsername("14251104208");
 //        LOG.info("account = " + account);
 //    }
 //
