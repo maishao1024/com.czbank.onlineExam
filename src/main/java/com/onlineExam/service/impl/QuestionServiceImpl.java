@@ -1,23 +1,18 @@
 package com.onlineExam.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.onlineExam.dao.ContestMapper;
 import com.onlineExam.dao.QuestionMapper;
-import com.onlineExam.model.Contest;
+import com.onlineExam.dto.ExamPaper;
+import com.onlineExam.dto.QuestionItem;
 import com.onlineExam.model.Question;
-import com.onlineExam.model.Subject;
+import com.onlineExam.model.example.QuestionExample;
 import com.onlineExam.service.QuestionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import com.onlineExam.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import java.util.*;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
@@ -25,124 +20,152 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private ContestMapper contestMapper;
+//    @Autowired
+//    private ContestMapper contestMapper;
+//
 
     @Override
-    public int addQuestion(Question question) {
-        if (question.getContestId() == 0) {
-            question.setState(1);
-        } else {
-            question.setState(0);
-            Contest contest = contestMapper.getContestById(question.getContestId());
-            contest.setTotalScore(contest.getTotalScore()+question.getScore());
-            contestMapper.updateContestById(contest);
+    public ExamPaper getQuestions() {
+      return  getQuestionItem();
+    }
+
+    public ExamPaper getQuestionItem(){
+        ExamPaper paper = new ExamPaper();
+        paper.setInstId(26);
+        paper.setPaperId(2);
+        Date date1 = new Date();
+        paper.setStartTime(DateUtil.DateToString(date1,DateUtil.DATETIME));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        calendar.add(Calendar.HOUR,1);
+        paper.setEndTime(DateUtil.DateToString(calendar.getTime(),DateUtil.DATETIME));
+        List<QuestionItem> items = new ArrayList<>();
+        QuestionExample example = new QuestionExample();
+        try {
+            List<Question> questions = questionMapper.selectByExample(example);
+            for (Question question : questions) {
+                QuestionItem item = new QuestionItem();
+                item.setQuestionType(2);
+                item.setQuestionstem(question.getTitle());
+                List<String> choices = new ArrayList<>();
+                choices.add(question.getOptionA());
+                choices.add(question.getOptionB());
+                choices.add(question.getOptionC());
+                choices.add(question.getOptionD());
+                item.setChoice(choices);
+                items.add(item);
+            }
+        }catch (Exception e){
+            paper.setRespCode("0");
         }
-        return questionMapper.insertQuestion(question);
+        paper.setRespCode("1");
+        paper.setQuestions(items);
+        return paper;
     }
 
-    @Override
-    public boolean updateQuestion(Question question) {
-        if (question.getContestId() != 0) {
-            Contest contest = contestMapper.getContestById(question.getContestId());
-            Question sourceQuestion = questionMapper.getQuestionById(question.getId());
-            contest.setTotalScore(contest.getTotalScore()-sourceQuestion.getScore()
-                    +question.getScore());
-            contestMapper.updateContestById(contest);
-        }
-        return questionMapper.updateQuestionById(question) > 0;
-    }
 
-    @Override
-    public List<Question> getQuestionsByContestId(int contestId) {
-        return questionMapper.getQuestionByContestId(contestId);
-    }
-
-    @Override
-    public Map<String, Object> getQuestionsByContent(int pageNum, int pageSize, String content) {
-        Map<String, Object> data = new HashMap<>();
-        int count = questionMapper.getCountByContent(content);
-        if (count == 0) {
-            data.put("pageNum", 0);
-            data.put("pageSize", 0);
-            data.put("totalPageNum", 1);
-            data.put("totalPageSize", 0);
-            data.put("questionsSize", 0);
-            data.put("questions", new ArrayList<>());
-            return data;
-        }
-        int totalPageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
-        if (pageNum > totalPageNum) {
-            data.put("pageNum", 0);
-            data.put("pageSize", 0);
-            data.put("totalPageNum", totalPageNum);
-            data.put("totalPageSize", 0);
-            data.put("questionsSize", 0);
-            data.put("questions", new ArrayList<>());
-            return data;
-        }
-        PageHelper.startPage(pageNum, pageSize);
-        List<Question> questions = questionMapper.getQuestionsByContent(content);
-        data.put("pageNum", pageNum);
-        data.put("pageSize", pageSize);
-        data.put("totalPageNum", totalPageNum);
-        data.put("totalPageSize", count);
-        data.put("questionsSize", questions.size());
-        data.put("questions", questions);
-        return data;
-    }
-
-    @Override
-    public boolean deleteQuestion(int id) {
-        return questionMapper.deleteQuestion(id) > 0;
-    }
-
-    @Override
-    public Question getQuestionById(int id) {
-        return questionMapper.getQuestionById(id);
-    }
-
-    @Override
-    public Map<String, Object> getQuestionsByProblemsetIdAndContentAndDiffculty(int pageNum, int pageSize, int problemsetId, String content, int difficulty) {
-        Map<String, Object> data = new HashMap<>();
-        int count = questionMapper.getCountByProblemsetIdAndContentAndDiffculty(problemsetId,
-                content, difficulty);
-        if (count == 0) {
-            data.put("pageNum", 0);
-            data.put("pageSize", 0);
-            data.put("totalPageNum", 1);
-            data.put("totalPageSize", 0);
-            data.put("questionsSize", 0);
-            data.put("problemsetId", problemsetId);
-            data.put("questions", new ArrayList<>());
-            return data;
-        }
-        int totalPageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
-        if (pageNum > totalPageNum) {
-            data.put("pageNum", 0);
-            data.put("pageSize", 0);
-            data.put("totalPageNum", totalPageNum);
-            data.put("totalPageSize", 0);
-            data.put("questionsSize", 0);
-            data.put("problemsetId", problemsetId);
-            data.put("questions", new ArrayList<>());
-            return data;
-        }
-        PageHelper.startPage(pageNum, pageSize);
-        List<Question> questions = questionMapper.getQuestionsByProblemsetIdAndContentAndDiffculty(
-                problemsetId, content, difficulty);
-        data.put("pageNum", pageNum);
-        data.put("pageSize", pageSize);
-        data.put("totalPageNum", totalPageNum);
-        data.put("totalPageSize", count);
-        data.put("questionsSize", questions.size());
-        data.put("problemsetId", problemsetId);
-        data.put("questions", questions);
-        return data;
-    }
-
-    @Override
-    public boolean updateQuestionsStateByContestId(int contestId, int state) {
-        return questionMapper.updateQuestionsStateByContestId(contestId, state) > 0;
-    }
+//    @Override
+//    public boolean updateQuestion(Question question) {
+//        if (question.getContestId() != 0) {
+//            Contest contest = contestMapper.getContestById(question.getContestId());
+//            Question sourceQuestion = questionMapper.getQuestionById(question.getId());
+//            contest.setTotalScore(contest.getTotalScore()-sourceQuestion.getScore()
+//                    +question.getScore());
+//            contestMapper.updateContestById(contest);
+//        }
+//        return questionMapper.updateQuestionById(question) > 0;
+//    }
+//
+//    @Override
+//    public List<Question> getQuestionsByContestId(int contestId) {
+//        return questionMapper.getQuestionByContestId(contestId);
+//    }
+//
+//    @Override
+//    public Map<String, Object> getQuestionsByContent(int pageNum, int pageSize, String content) {
+//        Map<String, Object> data = new HashMap<>();
+//        int count = questionMapper.getCountByContent(content);
+//        if (count == 0) {
+//            data.put("pageNum", 0);
+//            data.put("pageSize", 0);
+//            data.put("totalPageNum", 1);
+//            data.put("totalPageSize", 0);
+//            data.put("questionsSize", 0);
+//            data.put("questions", new ArrayList<>());
+//            return data;
+//        }
+//        int totalPageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+//        if (pageNum > totalPageNum) {
+//            data.put("pageNum", 0);
+//            data.put("pageSize", 0);
+//            data.put("totalPageNum", totalPageNum);
+//            data.put("totalPageSize", 0);
+//            data.put("questionsSize", 0);
+//            data.put("questions", new ArrayList<>());
+//            return data;
+//        }
+//        PageHelper.startPage(pageNum, pageSize);
+//        List<Question> questions = questionMapper.getQuestionsByContent(content);
+//        data.put("pageNum", pageNum);
+//        data.put("pageSize", pageSize);
+//        data.put("totalPageNum", totalPageNum);
+//        data.put("totalPageSize", count);
+//        data.put("questionsSize", questions.size());
+//        data.put("questions", questions);
+//        return data;
+//    }
+//
+//    @Override
+//    public boolean deleteQuestion(int id) {
+//        return questionMapper.deleteQuestion(id) > 0;
+//    }
+//
+//    @Override
+//    public Question getQuestionById(int id) {
+//        return questionMapper.getQuestionById(id);
+//    }
+//
+//    @Override
+//    public Map<String, Object> getQuestionsByProblemsetIdAndContentAndDiffculty(int pageNum, int pageSize, int problemsetId, String content, int difficulty) {
+//        Map<String, Object> data = new HashMap<>();
+//        int count = questionMapper.getCountByProblemsetIdAndContentAndDiffculty(problemsetId,
+//                content, difficulty);
+//        if (count == 0) {
+//            data.put("pageNum", 0);
+//            data.put("pageSize", 0);
+//            data.put("totalPageNum", 1);
+//            data.put("totalPageSize", 0);
+//            data.put("questionsSize", 0);
+//            data.put("problemsetId", problemsetId);
+//            data.put("questions", new ArrayList<>());
+//            return data;
+//        }
+//        int totalPageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+//        if (pageNum > totalPageNum) {
+//            data.put("pageNum", 0);
+//            data.put("pageSize", 0);
+//            data.put("totalPageNum", totalPageNum);
+//            data.put("totalPageSize", 0);
+//            data.put("questionsSize", 0);
+//            data.put("problemsetId", problemsetId);
+//            data.put("questions", new ArrayList<>());
+//            return data;
+//        }
+//        PageHelper.startPage(pageNum, pageSize);
+//        List<Question> questions = questionMapper.getQuestionsByProblemsetIdAndContentAndDiffculty(
+//                problemsetId, content, difficulty);
+//        data.put("pageNum", pageNum);
+//        data.put("pageSize", pageSize);
+//        data.put("totalPageNum", totalPageNum);
+//        data.put("totalPageSize", count);
+//        data.put("questionsSize", questions.size());
+//        data.put("problemsetId", problemsetId);
+//        data.put("questions", questions);
+//        return data;
+//    }
+//
+//    @Override
+//    public boolean updateQuestionsStateByContestId(int contestId, int state) {
+//        return questionMapper.updateQuestionsStateByContestId(contestId, state) > 0;
+//    }
 }

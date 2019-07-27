@@ -1,13 +1,18 @@
 package com.onlineExam.service;
 
-import com.onlineExam.dto.PageResult;
+import com.onlineExam.dto.DataResult;
+import com.onlineExam.dto.SimpleResult;
 
 public interface UserService {
 
-    PageResult validateUser(String jobNo, String password);
+    DataResult validateUser(String jobNo, String passWord);
 
-    PageResult changePassword(String jobNo,String password,String newPassowrd);
-//    int addAccount(User user);
+    DataResult changePassword(String jobNo, String passWord, String newPassword);
+
+    DataResult getMyAchievement(Integer id, String userName);
+
+    SimpleResult updateUser(Integer id,String jobNo,String userName,String phone,String wxNo,String email,String department);
+
 //
 //    boolean updateAccount(User user);
 //

@@ -1,13 +1,9 @@
 package com.onlineExam.controller;
 
-import com.onlineExam.common.QexzConst;
-import com.onlineExam.dto.PageResult;
+import com.onlineExam.dto.DataResult;
+import com.onlineExam.dto.SimpleResult;
 import com.onlineExam.exception.ERRORCODE;
-import com.onlineExam.model.User;
 import com.onlineExam.service.UserService;
-import com.onlineExam.service.impl.UserServiceImpl;
-import com.onlineExam.util.MD5;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * create by zdk on 19/7/23
@@ -51,107 +46,77 @@ public class UserController {
 //    }
 //
 //
-//    /**
-//     * 考试记录页面
-//     */
-//    @RequestMapping(value="/myExam", method= RequestMethod.GET)
-//    public String myExam(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-//        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-//        if (currentUser == null) {
-//            return "redirect:/";
-//        }
-//        Map<String, Object> data = gradeService.getGradesByStudentId(page, QexzConst.gradePageSize, currentUser.getId());
-//        List<Grade> grades = (List<Grade>) data.get("grades");
-//        Set<Integer> contestIds = grades.stream().map(Grade::getContestId).collect(Collectors.toCollection(HashSet::new));
-//        List<Contest> contests = contestService.getContestsByContestIds(contestIds);
-//        List<Subject> subjects = subjectService.getSubjects();
-//        Map<Integer, String> subjectId2name = subjects.stream().
-//                collect(Collectors.toMap(Subject::getId, Subject::getName));
-//        for (Contest contest : contests) {
-//            contest.setSubjectName(subjectId2name.
-//                    getOrDefault(contest.getSubjectId(), "未知科目"));
-//        }
-//        Map<Integer, Contest> id2contest = contests.stream().
-//                collect(Collectors.toMap(Contest::getId, contest -> contest));
-//        for (Grade grade : grades) {
-//            grade.setContest(id2contest.get(grade.getContestId()));
-//        }
-//        model.addAttribute(QexzConst.DATA, data);
-//        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
-//        return "/user/myExam";
-//    }
-//
+    /**
+     * 我的成绩
+     */
+    @RequestMapping(value="/myExam", method= RequestMethod.POST)
+    @ResponseBody
+    public DataResult myExam(HttpServletRequest request) {
+        try {
+            Integer id = Integer.valueOf(request.getParameter("id"));
+            String username = request.getParameter("username");
+            return userService.getMyAchievement(id,username);
+        }catch (Exception e){
+            return DataResult.fixedError(ERRORCODE.COMMON);
+        }
+
+    }
+
     /**
      * 更新密码
      */
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     @ResponseBody
-    public PageResult updatePassword(HttpServletRequest request) {
-        PageResult pageResult = new PageResult();
+    public DataResult updatePassword(HttpServletRequest request) {
+        DataResult dataResult;
         try {
             String oldPassword = request.getParameter("password");
             String newPassword = request.getParameter("newPassword");
             String jobNo = request.getParameter("jobNo");
-            pageResult = userService.changePassword(jobNo,oldPassword,newPassword);
-//            if (StringUtils.isNotEmpty(newPassword) && StringUtils.isNotEmpty(confirmNewPassword)
-//                    && !newPassword.equals(confirmNewPassword)) {
-//                return PageResult.fixedError(ERRORCODE.NOT_EQUALS_CONFIRM_PASSWORD);
-//            }
-//            User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-//            if (!currentUser.getPassword().equals(md5OldPassword)) {
-//                return PageResult.fixedError(ERRORCODE.WRONG_PASSWORD);
-//            }
-//            currentUser.setPassword(md5NewPassword);
-//            //boolean result = userService.updateAccount(currentUser);
-//            //pageResult.setSuccess(result);
+            dataResult = userService.changePassword(jobNo,oldPassword,newPassword);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return PageResult.fixedError(ERRORCODE.COMMON);
+            return DataResult.fixedError(ERRORCODE.COMMON);
         }
-        return pageResult;
+        return dataResult;
     }
-//
-//    /**
-//     * 更新个人信息
-//     */
-//    @RequestMapping(value = "/api/updateAccount", method = RequestMethod.POST)
-//    @ResponseBody
-//    public PageResult updateAccount(HttpServletRequest request, HttpServletResponse response) {
-//        PageResult pageResult = new PageResult();
-//        try {
-//            String phone = request.getParameter("phone");
-//            String qq = request.getParameter("qq");
-//            String email = request.getParameter("email");
-//            String description = request.getParameter("description");
-//            String avatarImgUrl = request.getParameter("avatarImgUrl");
-//            User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-//            currentUser.setPhone(phone);
-//            currentUser.setQq(qq);
-//            currentUser.setEmail(email);
-//            currentUser.setDescription(description);
-//            currentUser.setAvatarImgUrl(avatarImgUrl);
-//            boolean result = userService.updateAccount(currentUser);
-//            pageResult.setSuccess(result);
-//        } catch (Exception e) {
-//            LOG.error(e.getMessage(), e);
-//            return PageResult.fixedError(ERRORCODE.COMMON);
-//        }
-//        return pageResult;
-//    }
-//
+
+    /**
+     * 更新个人信息
+     */
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult updateAccount(HttpServletRequest request) {
+        SimpleResult simpleResult = new SimpleResult();
+        try {
+            Integer id = Integer.valueOf(request.getParameter("id"));
+            String jobNo = request.getParameter("jobNo");
+            String userName = request.getParameter("userName");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String wxNo = request.getParameter("wxNo");
+            String department = request.getParameter("department");
+            return userService.updateUser(id,jobNo,userName,phone,wxNo,email,department);
+        } catch (Exception e) {
+            simpleResult.setSuccess(false);
+            simpleResult.setResMsg(ERRORCODE.COMMON.errMsg);
+        }
+        return simpleResult;
+    }
+
     /**
      * 验证登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public PageResult login(HttpServletRequest request) {
+    public DataResult login(HttpServletRequest request) {
             try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             return userService.validateUser(username,password);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return PageResult.fixedError(ERRORCODE.COMMON);
+            return DataResult.fixedError(ERRORCODE.COMMON);
         }
     }
 
@@ -173,17 +138,17 @@ public class UserController {
 //     */
 //    @RequestMapping(value="/api/addAccount", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult addAccount(@RequestBody User user) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult addAccount(@RequestBody User user) {
+//        DataResult pageResult = new DataResult();
 //        User existUser = userService.getAccountByUsername(user.getUsername());
 //        if(existUser == null) {//检测该用户是否已经注册
 //            user.setPassword(MD5.md5(QexzConst.MD5_SALT+ user.getPassword()));
 //            user.setAvatarImgUrl(QexzConst.DEFAULT_AVATAR_IMG_URL);
 //            user.setDescription("");
 //            int accountId = userService.addAccount(user);
-//            return new PageResult().setData(accountId);
+//            return new DataResult().setData(accountId);
 //        }
-//        return PageResult.fixedError(ERRORCODE.AREADY_EXIST_USERNAME);
+//        return DataResult.fixedError(ERRORCODE.AREADY_EXIST_USERNAME);
 //    }
 //
 //    /**
@@ -191,11 +156,11 @@ public class UserController {
 //     */
 //    @RequestMapping(value="/api/updateManegeAccount", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult updateAccount(@RequestBody User user) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult updateAccount(@RequestBody User user) {
+//        DataResult pageResult = new DataResult();
 //        user.setPassword(MD5.md5(QexzConst.MD5_SALT+ user.getPassword()));
 //        boolean result = userService.updateAccount(user);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //    /**
@@ -203,10 +168,10 @@ public class UserController {
 //     */
 //    @DeleteMapping("/api/deleteAccount/{id}")
 //    @ResponseBody
-//    public PageResult deleteAccount(@PathVariable int id) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult deleteAccount(@PathVariable int id) {
+//        DataResult pageResult = new DataResult();
 //        boolean result = userService.deleteAccount(id);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //    /**
@@ -214,10 +179,10 @@ public class UserController {
 //     */
 //    @RequestMapping(value="/api/disabledAccount/{id}", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult disabledAccount(@PathVariable int id) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult disabledAccount(@PathVariable int id) {
+//        DataResult pageResult = new DataResult();
 //        boolean result = userService.disabledAccount(id);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //    /**
@@ -225,10 +190,10 @@ public class UserController {
 //     */
 //    @RequestMapping(value="/api/abledAccount/{id}", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult abledAccount(@PathVariable int id) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult abledAccount(@PathVariable int id) {
+//        DataResult pageResult = new DataResult();
 //        boolean result = userService.abledAccount(id);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 
 

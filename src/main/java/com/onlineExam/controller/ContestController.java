@@ -1,6 +1,6 @@
 //package com.onlineExam.controller;
 //
-//import com.onlineExam.dto.PageResult;
+//import com.onlineExam.dto.DataResult;
 //import com.onlineExam.model.Contest;
 //import com.onlineExam.service.ContestService;
 //import com.onlineExam.service.QuestionService;
@@ -23,39 +23,39 @@
 //    //添加考试
 //    @RequestMapping(value="/api/addContest", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult addContest(@RequestBody Contest contest) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult addContest(@RequestBody Contest contest) {
+//        DataResult pageResult = new DataResult();
 //        int contestId = contestService.addContest(contest);
-//        return new PageResult().setData(contestId);
+//        return new DataResult().setData(contestId);
 //    }
 //
 //    //更新考试信息
 //    @RequestMapping(value="/api/updateContest", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult updateContest(@RequestBody Contest contest) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult updateContest(@RequestBody Contest contest) {
+//        DataResult pageResult = new DataResult();
 //        boolean result = contestService.updateContest(contest);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //    //删除考试信息
 //    @DeleteMapping("/api/deleteContest/{id}")
-//    public PageResult deleteContest(@PathVariable int id) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult deleteContest(@PathVariable int id) {
+//        DataResult pageResult = new DataResult();
 //        boolean result = contestService.deleteContest(id);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //    //完成考试批改
 //    @RequestMapping(value="/api/finishContest/{id}", method= RequestMethod.POST)
 //    @ResponseBody
-//    public PageResult finishContest(@PathVariable int id) {
-//        PageResult pageResult = new PageResult();
+//    public DataResult finishContest(@PathVariable int id) {
+//        DataResult pageResult = new DataResult();
 //        Contest contest = contestService.getContestById(id);
 //        contest.setState(3);
 //        questionService.updateQuestionsStateByContestId(id, 1);
 //        boolean result = contestService.updateContest(contest);
-//        return new PageResult().setData(result);
+//        return new DataResult().setData(result);
 //    }
 //
 //

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onlineExam.dao.AchievementMapper" >
+  <resultMap id="BaseResultMap" type="com.onlineExam.model.Achievement" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="test_id" property="testId" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="auto_score" property="autoScore" jdbcType="INTEGER" />
+    <result column="manul_score" property="manulScore" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.onlineExam.model.Achievement" extends="BaseResultMap" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="answer_json" property="answerJson" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <select id="qryResultWithPaper" resultType="java.util.Map">
+    SELECT a.manul_score,a.finish_time,b.title,b.start_time FROM achievement a
+    LEFT JOIN paper b ON a.test_id = b.id
+    WHERE a.user_id = #{userId} AND a.state = 1
+    ORDER BY a.finish_time
+  </select>
+</mapper>

@@ -3,7 +3,7 @@ package com.onlineExam.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "onlineexamuser")
+@Table(name = "user")
 public class User {
     /**
      * 主键ID
@@ -30,7 +30,8 @@ public class User {
     /**
      * QQ
      */
-    private String qq;
+    @Column(name = "wxNo")
+    private String wxno;
 
     private String phone;
 
@@ -42,7 +43,7 @@ public class User {
     /**
      * 个人描述
      */
-    private String description;
+    private String department;
 
     /**
      * 0表示学生,1表示管理员
@@ -136,19 +137,19 @@ public class User {
     /**
      * 获取QQ
      *
-     * @return qq - QQ
+     * @return wxNo - QQ
      */
-    public String getQq() {
-        return qq;
+    public String getWxno() {
+        return wxno;
     }
 
     /**
      * 设置QQ
      *
-     * @param qq QQ
+     * @param wxno QQ
      */
-    public void setQq(String qq) {
-        this.qq = qq;
+    public void setWxno(String wxno) {
+        this.wxno = wxno;
     }
 
     /**
@@ -186,19 +187,19 @@ public class User {
     /**
      * 获取个人描述
      *
-     * @return description - 个人描述
+     * @return department - 个人描述
      */
-    public String getDescription() {
-        return description;
+    public String getDepartment() {
+        return department;
     }
 
     /**
      * 设置个人描述
      *
-     * @param description 个人描述
+     * @param department 个人描述
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     /**

@@ -1,38 +1,24 @@
 package com.onlineExam.dao;
 
 import com.onlineExam.model.Question;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
-
+import com.onlineExam.model.example.QuestionExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
-@Component
-@Mapper
-public interface QuestionMapper {
+public interface QuestionMapper extends Mapper<Question>, MySqlMapper<Question> {
+    int countByExample(QuestionExample example);
 
-    int insertQuestion(@Param("question") Question question);
+    int deleteByExample(QuestionExample example);
 
-    int deleteQuestion(@Param("id") int id);
+    List<Question> selectByExampleWithBLOBs(QuestionExample example);
 
-    int updateQuestionById(@Param("question") Question question);
+    List<Question> selectByExample(QuestionExample example);
 
-    Question getQuestionById(@Param("id") int id);
+    int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
 
-    int getCountByContent(@Param("content") String content);
+    int updateByExampleWithBLOBs(@Param("record") Question record, @Param("example") QuestionExample example);
 
-    List<Question> getQuestionsByContent(@Param("content") String content);
-
-    List<Question> getQuestionByContestId(@Param("contestId") int contestId);
-
-    int getCountByProblemsetIdAndContentAndDiffculty(@Param("problemsetId") int problemsetId,
-                                                     @Param("content") String content,
-                                                     @Param("difficulty") int diffculty);
-
-    List<Question> getQuestionsByProblemsetIdAndContentAndDiffculty(@Param("problemsetId") int problemsetId,
-                                                                    @Param("content") String content,
-                                                                    @Param("difficulty") int diffculty);
-
-    int updateQuestionsStateByContestId(@Param("contestId") int contestId,
-                                        @Param("state") int state);
+    int updateByExample(@Param("record") Question record, @Param("example") QuestionExample example);
 }
