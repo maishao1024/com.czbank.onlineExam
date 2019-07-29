@@ -18,13 +18,10 @@ import java.util.*;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-    private static Log LOG = LogFactory.getLog(QuestionServiceImpl.class);
+    private static Log logger = LogFactory.getLog(QuestionServiceImpl.class);
 
     @Autowired
     private QuestionMapper questionMapper;
-//    @Autowired
-//    private ContestMapper contestMapper;
-//
 
 
     @Override
@@ -63,6 +60,7 @@ public class QuestionServiceImpl implements QuestionService {
                 return new SimpleResult(ERRORCODE.QUESTION_ADD_FAILURE);
             }
         }catch (Exception e) {
+            logger.error("增加题目发生异常",e);
             return new SimpleResult(ERRORCODE.COMMON);
         }
     }
@@ -101,6 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
                 items.add(item);
             }
         }catch (Exception e){
+            logger.error("题目解析异常",e);
             paper.setRespCode("0");
         }
         paper.setRespCode("1");

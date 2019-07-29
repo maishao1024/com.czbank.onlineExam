@@ -16,6 +16,8 @@ import com.onlineExam.model.example.QuestionExample;
 import com.onlineExam.service.PaperService;
 import com.onlineExam.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import java.util.List;
 
 @Service
 public class PaperServiceImpl implements PaperService{
+
+    private static Logger logger = LoggerFactory.getLogger(PaperServiceImpl.class);
 
     @Autowired
     private QuestionMapper questionMapper;
@@ -60,6 +64,7 @@ public class PaperServiceImpl implements PaperService{
             dataResult.setData(results);
             return dataResult;
         }catch (Exception e){
+            logger.error("获取试卷历史异常",e);
             return DataResult.fixedError(ERRORCODE.COMMON);
         }
     }
@@ -103,6 +108,7 @@ public class PaperServiceImpl implements PaperService{
             achievement.setManulScore(0);
             achievementMapper.insertSelective(achievement);
         }catch (Exception e){
+            logger.error("交卷异常",e);
             return new SimpleResult(ERRORCODE.COMMON);
         }
         return new SimpleResult();

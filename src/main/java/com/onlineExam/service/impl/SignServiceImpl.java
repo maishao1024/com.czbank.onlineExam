@@ -8,6 +8,8 @@ import com.onlineExam.model.SignRecord;
 import com.onlineExam.model.example.SignRecordExample;
 import com.onlineExam.service.SignService;
 import com.onlineExam.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Service
 public class SignServiceImpl implements SignService{
+
+    private static Logger logger = LoggerFactory.getLogger(SignServiceImpl.class);
 
     @Autowired
     private SignRecordMapper signRecordMapper;
@@ -54,7 +58,7 @@ public class SignServiceImpl implements SignService{
             }
             return simpleResult;
         }catch (Exception e){
-            e.printStackTrace();
+            logger.info("签到发生异常",e);
             simpleResult.setSuccess(false);
             simpleResult.setResMsg(ERRORCODE.COMMON.errMsg);
             return simpleResult;
@@ -66,6 +70,5 @@ public class SignServiceImpl implements SignService{
         Integer startNum = Integer.valueOf(Common.startTime.replace(":",""));
         Integer endNum = Integer.valueOf(Common.endTime.replace(":",""));
         return (nowNum >= startNum && nowNum <= endNum);
-
     }
 }
