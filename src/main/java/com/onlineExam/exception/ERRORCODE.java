@@ -10,7 +10,9 @@ public enum ERRORCODE {
     NOT_EQUALS_CONFIRM_PASSWORD("确认密码不一致", 3004),
     UPLOAD_FILE_IMAGE_ANALYZE_ERROR("服务端解析文件出错", 3005),
     UPLOAD_FILE_IMAGE_NOT_QUALIFIED("图片不合法",3006),
-    AREADY_EXIST_USERNAME("该账号已经存在了", 3007);
+    AREADY_EXIST_USERNAME("该账号已经存在了", 3007),
+    QUESTION_ADD_FAILURE("服务器题目增加失败,请联系管理员", 3008),
+    PAPER_FAILURE("试卷提交失败,请联系管理员", 3009);
 
     public final String errMsg;
     public final int code;

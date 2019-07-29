@@ -12,13 +12,9 @@ public interface QuestionMapper extends Mapper<Question>, MySqlMapper<Question> 
 
     int deleteByExample(QuestionExample example);
 
-    List<Question> selectByExampleWithBLOBs(QuestionExample example);
-
     List<Question> selectByExample(QuestionExample example);
 
     int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Question record, @Param("example") QuestionExample example);
 
     int updateByExample(@Param("record") Question record, @Param("example") QuestionExample example);
 }

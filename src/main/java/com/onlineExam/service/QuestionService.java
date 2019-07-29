@@ -1,10 +1,11 @@
 package com.onlineExam.service;
 
 import com.onlineExam.dto.ExamPaper;
+import com.onlineExam.dto.SimpleResult;
 
 public interface QuestionService {
 
-//    int addQuestion(Question question);
+    SimpleResult addQuestion(String type,String description,String optionA,String optionB,String optionC,String optionD,String singleAnswer,String multipleAnswer,String fillIn,String analysis,String score);
 //
 //    boolean updateQuestion(Question question);
 //

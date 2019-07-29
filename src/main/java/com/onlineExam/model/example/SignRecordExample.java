@@ -2,6 +2,7 @@ package com.onlineExam.model.example;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class SignRecordExample {
@@ -103,6 +104,58 @@ public class SignRecordExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                timeList.add(new java.sql.Time(iter.next().getTime()));
+            }
+            addCriterion(condition, timeList, property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -225,6 +278,66 @@ public class SignRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andSignDateIsNull() {
+            addCriterion("sign_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateIsNotNull() {
+            addCriterion("sign_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateEqualTo(Date value) {
+            addCriterionForJDBCDate("sign_date =", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("sign_date <>", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("sign_date >", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("sign_date >=", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateLessThan(Date value) {
+            addCriterionForJDBCDate("sign_date <", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("sign_date <=", value, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateIn(List<Date> values) {
+            addCriterionForJDBCDate("sign_date in", values, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("sign_date not in", values, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("sign_date between", value1, value2, "signDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("sign_date not between", value1, value2, "signDate");
+            return (Criteria) this;
+        }
+
         public Criteria andSignTimeIsNull() {
             addCriterion("sign_time is null");
             return (Criteria) this;
@@ -236,182 +349,52 @@ public class SignRecordExample {
         }
 
         public Criteria andSignTimeEqualTo(Date value) {
-            addCriterion("sign_time =", value, "signTime");
+            addCriterionForJDBCTime("sign_time =", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeNotEqualTo(Date value) {
-            addCriterion("sign_time <>", value, "signTime");
+            addCriterionForJDBCTime("sign_time <>", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeGreaterThan(Date value) {
-            addCriterion("sign_time >", value, "signTime");
+            addCriterionForJDBCTime("sign_time >", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("sign_time >=", value, "signTime");
+            addCriterionForJDBCTime("sign_time >=", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeLessThan(Date value) {
-            addCriterion("sign_time <", value, "signTime");
+            addCriterionForJDBCTime("sign_time <", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeLessThanOrEqualTo(Date value) {
-            addCriterion("sign_time <=", value, "signTime");
+            addCriterionForJDBCTime("sign_time <=", value, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeIn(List<Date> values) {
-            addCriterion("sign_time in", values, "signTime");
+            addCriterionForJDBCTime("sign_time in", values, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeNotIn(List<Date> values) {
-            addCriterion("sign_time not in", values, "signTime");
+            addCriterionForJDBCTime("sign_time not in", values, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeBetween(Date value1, Date value2) {
-            addCriterion("sign_time between", value1, value2, "signTime");
+            addCriterionForJDBCTime("sign_time between", value1, value2, "signTime");
             return (Criteria) this;
         }
 
         public Criteria andSignTimeNotBetween(Date value1, Date value2) {
-            addCriterion("sign_time not between", value1, value2, "signTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpIsNull() {
-            addCriterion("current_ip is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpIsNotNull() {
-            addCriterion("current_ip is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpEqualTo(String value) {
-            addCriterion("current_ip =", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpNotEqualTo(String value) {
-            addCriterion("current_ip <>", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpGreaterThan(String value) {
-            addCriterion("current_ip >", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpGreaterThanOrEqualTo(String value) {
-            addCriterion("current_ip >=", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpLessThan(String value) {
-            addCriterion("current_ip <", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpLessThanOrEqualTo(String value) {
-            addCriterion("current_ip <=", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpLike(String value) {
-            addCriterion("current_ip like", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpNotLike(String value) {
-            addCriterion("current_ip not like", value, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpIn(List<String> values) {
-            addCriterion("current_ip in", values, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpNotIn(List<String> values) {
-            addCriterion("current_ip not in", values, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpBetween(String value1, String value2) {
-            addCriterion("current_ip between", value1, value2, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentIpNotBetween(String value1, String value2) {
-            addCriterion("current_ip not between", value1, value2, "currentIp");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceIsNull() {
-            addCriterion("\" sequence\" is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceIsNotNull() {
-            addCriterion("\" sequence\" is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceEqualTo(Integer value) {
-            addCriterion("\" sequence\" =", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceNotEqualTo(Integer value) {
-            addCriterion("\" sequence\" <>", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceGreaterThan(Integer value) {
-            addCriterion("\" sequence\" >", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceGreaterThanOrEqualTo(Integer value) {
-            addCriterion("\" sequence\" >=", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceLessThan(Integer value) {
-            addCriterion("\" sequence\" <", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceLessThanOrEqualTo(Integer value) {
-            addCriterion("\" sequence\" <=", value, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceIn(List<Integer> values) {
-            addCriterion("\" sequence\" in", values, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceNotIn(List<Integer> values) {
-            addCriterion("\" sequence\" not in", values, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceBetween(Integer value1, Integer value2) {
-            addCriterion("\" sequence\" between", value1, value2, "sequence");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceNotBetween(Integer value1, Integer value2) {
-            addCriterion("\" sequence\" not between", value1, value2, "sequence");
+            addCriterionForJDBCTime("sign_time not between", value1, value2, "signTime");
             return (Criteria) this;
         }
     }

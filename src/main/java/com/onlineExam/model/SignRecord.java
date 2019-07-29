@@ -17,23 +17,14 @@ public class SignRecord {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "sign_date")
+    private Date signDate;
+
     /**
      * 帖子id
      */
     @Column(name = "sign_time")
     private Date signTime;
-
-    /**
-     * 内容
-     */
-    @Column(name = "current_ip")
-    private String currentIp;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "sequence")
-    private Integer sequence;
 
     /**
      * 获取主键ID
@@ -72,6 +63,20 @@ public class SignRecord {
     }
 
     /**
+     * @return sign_date
+     */
+    public Date getSignDate() {
+        return signDate;
+    }
+
+    /**
+     * @param signDate
+     */
+    public void setSignDate(Date signDate) {
+        this.signDate = signDate;
+    }
+
+    /**
      * 获取帖子id
      *
      * @return sign_time - 帖子id
@@ -87,41 +92,5 @@ public class SignRecord {
      */
     public void setSignTime(Date signTime) {
         this.signTime = signTime;
-    }
-
-    /**
-     * 获取内容
-     *
-     * @return current_ip - 内容
-     */
-    public String getCurrentIp() {
-        return currentIp;
-    }
-
-    /**
-     * 设置内容
-     *
-     * @param currentIp 内容
-     */
-    public void setCurrentIp(String currentIp) {
-        this.currentIp = currentIp;
-    }
-
-    /**
-     * 获取创建时间
-     *
-     * @return  sequence - 创建时间
-     */
-    public Integer getSequence() {
-        return sequence;
-    }
-
-    /**
-     * 设置创建时间
-     *
-     * @param sequence 创建时间
-     */
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
     }
 }

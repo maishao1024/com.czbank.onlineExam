@@ -23,9 +23,33 @@
   </resultMap>
 
   <select id="qryResultWithPaper" resultType="java.util.Map">
-    SELECT a.manul_score,a.finish_time,b.title,b.start_time FROM achievement a
+    SELECT a.score,a.finish_time,b.title,b.start_time FROM achievement a
     LEFT JOIN paper b ON a.test_id = b.id
     WHERE a.user_id = #{userId} AND a.state = 1
-    ORDER BY a.finish_time
+    <if test="title != null">
+      AND b.title LIKE #{title}
+    </if>
+    ORDER BY a.finish_time DESC
+  </select>
+
+  <select id="qryAchievementsSpecial" resultType="java.util.Map">
+    SELECT d.job_no,d.username,c.title,c.score
+    from (SELECT a.title,b.score,b.user_id
+    from paper a
+    LEFT JOIN achievement b on a.id = b.test_id
+    WHERE b.user_id IS not null
+    <if test="title != null and title != ''">
+      AND a.title LIKE #{title}
+    </if>
+     ORDER BY a.create_time desc) c
+    LEFT JOIN user d on c.user_id = d.id
+    WHERE 1 = 1
+    <if test="jobNo != null and jobNo != ''">
+      AND d.job_no LIKE #{jobNo}
+    </if>
+    <if test="userName != null and userName != ''">
+      AND d.username LIKE #{userName}
+    </if>
+    ORDER BY d.job_no
   </select>
 </mapper>

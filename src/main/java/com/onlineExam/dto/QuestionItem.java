@@ -7,6 +7,8 @@ import java.util.List;
 @Data
 public class QuestionItem {
 
+    private Integer questionNo;
+
     private String questionstem;
 
     private Integer questionType;

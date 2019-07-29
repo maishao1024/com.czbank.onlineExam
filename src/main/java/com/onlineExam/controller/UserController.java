@@ -3,6 +3,7 @@ package com.onlineExam.controller;
 import com.onlineExam.dto.DataResult;
 import com.onlineExam.dto.SimpleResult;
 import com.onlineExam.exception.ERRORCODE;
+import com.onlineExam.service.SignService;
 import com.onlineExam.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,29 +24,25 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-//    @Autowired
-//    private PostService postService;
-//    @Autowired
-//    private GradeService gradeService;
-//    @Autowired
-//    private ContestService contestService;
-//    @Autowired
-//    private SubjectService subjectService;
-//
-//    /**
-//     * 个人信息页面
-//     */
-//    @RequestMapping(value="/profile", method= RequestMethod.GET)
-//    public String profile(HttpServletRequest request, Model model) {
-//        User currentUser = (User) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-//        if (currentUser == null){
-//            return "redirect:/";
-//        }
-//        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentUser);
-//        return "/user/profile";
-//    }
-//
-//
+
+    @Autowired
+    private SignService signService;
+
+    /**
+     * 个人签到
+     */
+    @RequestMapping(value="/sign", method= RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult sign(HttpServletRequest request) {
+        try {
+            Integer id = Integer.valueOf(request.getParameter("id"));
+            return signService.sign(id);
+        }catch (Exception e){
+            return new SimpleResult(ERRORCODE.COMMON);
+        }
+    }
+
+
     /**
      * 我的成绩
      */
@@ -55,7 +52,8 @@ public class UserController {
         try {
             Integer id = Integer.valueOf(request.getParameter("id"));
             String username = request.getParameter("username");
-            return userService.getMyAchievement(id,username);
+            String title = request.getParameter("title");
+            return userService.getMyAchievement(id,username,title);
         }catch (Exception e){
             return DataResult.fixedError(ERRORCODE.COMMON);
         }
@@ -120,60 +118,58 @@ public class UserController {
         }
     }
 
-//    /**
-//     * 用户退出
-//     * @param request
-//     * @return
-//     */
-//    @RequestMapping(value = "/logout", method= RequestMethod.GET)
-//    public String logout(HttpServletRequest request) {
-//        request.getSession().setAttribute(QexzConst.CURRENT_ACCOUNT,null);
-//        String url=request.getHeader("Referer");
-//        LOG.info("url = " + url);
-//        return "redirect:"+url;
-//    }
-//
-//    /**
-//     * API:添加用户
-//     */
-//    @RequestMapping(value="/api/addAccount", method= RequestMethod.POST)
-//    @ResponseBody
-//    public DataResult addAccount(@RequestBody User user) {
-//        DataResult pageResult = new DataResult();
-//        User existUser = userService.getAccountByUsername(user.getUsername());
-//        if(existUser == null) {//检测该用户是否已经注册
-//            user.setPassword(MD5.md5(QexzConst.MD5_SALT+ user.getPassword()));
-//            user.setAvatarImgUrl(QexzConst.DEFAULT_AVATAR_IMG_URL);
-//            user.setDescription("");
-//            int accountId = userService.addAccount(user);
-//            return new DataResult().setData(accountId);
-//        }
-//        return DataResult.fixedError(ERRORCODE.AREADY_EXIST_USERNAME);
-//    }
-//
-//    /**
-//     * API:更新用户
-//     */
-//    @RequestMapping(value="/api/updateManegeAccount", method= RequestMethod.POST)
-//    @ResponseBody
-//    public DataResult updateAccount(@RequestBody User user) {
-//        DataResult pageResult = new DataResult();
-//        user.setPassword(MD5.md5(QexzConst.MD5_SALT+ user.getPassword()));
-//        boolean result = userService.updateAccount(user);
-//        return new DataResult().setData(result);
-//    }
-//
-//    /**
-//     * API:删除用户
-//     */
-//    @DeleteMapping("/api/deleteAccount/{id}")
-//    @ResponseBody
-//    public DataResult deleteAccount(@PathVariable int id) {
-//        DataResult pageResult = new DataResult();
-//        boolean result = userService.deleteAccount(id);
-//        return new DataResult().setData(result);
-//    }
-//
+    /**
+     * 用户注册
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/register", method= RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult register(HttpServletRequest request) {
+        try {
+            String jobNo = request.getParameter("jobNo");
+            String userName = request.getParameter("userName");
+            String passWord = request.getParameter("passWord");
+            return userService.register(jobNo,userName,passWord);
+        }catch (Exception e){
+            return new SimpleResult(ERRORCODE.COMMON);
+        }
+    }
+
+    /**
+     * 用户列表
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/userList", method= RequestMethod.POST)
+    @ResponseBody
+    public DataResult userList(HttpServletRequest request) {
+        try {
+            String jobNo = request.getParameter("jobNo");
+            String userName = request.getParameter("userName");
+            String department = request.getParameter("department");
+            return userService.getUserList(jobNo,userName,department);
+        }catch (Exception e){
+            return DataResult.fixedError(ERRORCODE.COMMON);
+        }
+    }
+
+
+
+    /**
+     * API:删除用户
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResult deleteUser(HttpServletRequest request) {
+        try {
+            String jobNo = request.getParameter("jobNo");
+            return userService.deleteUser(jobNo);
+        }catch (Exception e){
+            return new DataResult().fixedError(ERRORCODE.COMMON);
+        }
+    }
+
 //    /**
 //     * API:禁用账号
 //     */

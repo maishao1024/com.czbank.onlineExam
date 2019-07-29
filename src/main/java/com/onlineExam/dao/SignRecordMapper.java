@@ -1,8 +1,10 @@
 package com.onlineExam.dao;
 
 import com.onlineExam.model.SignRecord;
-import com.onlineExam.model.example.SignRecordExample;
+
 import java.util.List;
+
+import com.onlineExam.model.example.SignRecordExample;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

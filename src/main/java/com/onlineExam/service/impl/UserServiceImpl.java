@@ -5,11 +5,14 @@ import com.onlineExam.dao.UserMapper;
 import com.onlineExam.dto.DataResult;
 import com.onlineExam.dto.SimpleResult;
 import com.onlineExam.dto.SingleAchievement;
+import com.onlineExam.dto.UserResult;
 import com.onlineExam.exception.ERRORCODE;
 import com.onlineExam.model.User;
 import com.onlineExam.model.example.UserExample;
 import com.onlineExam.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +24,87 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
     private AchievementMapper achievementMapper;
+
+    @Override
+    public DataResult deleteUser(String jobNo) {
+        try {
+            UserExample userExample = new UserExample();
+            UserExample.Criteria criteria = userExample.createCriteria();
+            criteria.andJobNoEqualTo(jobNo);
+            userMapper.deleteByExample(userExample);
+            return getUserList("","","");
+        }catch (Exception e){
+            logger.info("删除用户发生异常",e);
+            return DataResult.fixedError(ERRORCODE.COMMON);
+        }
+    }
+
+    @Override
+    public DataResult getUserList(String jobNo, String userName, String department) {
+        try {
+            UserExample example = new UserExample();
+            UserExample.Criteria criteria = example.createCriteria();
+            if (StringUtils.isNotEmpty(jobNo)) {
+                criteria.andJobNoLike("%" + jobNo + "%");
+            }
+            if (StringUtils.isNotEmpty(userName)) {
+                criteria.andUsernameLike("%" + userName + "%");
+            }
+            if (StringUtils.isNotEmpty(department)) {
+                criteria.andDepartmentLike("%" + department + "%");
+            }
+            criteria.andLevelEqualTo(1);
+            example.setOrderByClause("job_no");
+            List<User> users = userMapper.selectByExample(example);
+            List<UserResult> results = new ArrayList<>();
+            for (User user : users){
+                UserResult result = new UserResult();
+                result.setId(user.getJobNo());
+                result.setUserName(user.getUsername());
+                result.setEmail(user.getEmail());
+                result.setDepartment(user.getDepartment());
+                results.add(result);
+            }
+            DataResult dataResult = new DataResult();
+            dataResult.setData(results);
+            return dataResult;
+        }catch (Exception e){
+            logger.info("获取用户列表发生异常",e);
+            return DataResult.fixedError(ERRORCODE.COMMON);
+        }
+
+    }
+
+    @Override
+    public SimpleResult register(String jobNo, String userName, String passWord) {
+        try {
+            UserExample example = new UserExample();
+            UserExample.Criteria criteria = example.createCriteria();
+            criteria.andJobNoEqualTo(jobNo);
+            List<User> users = userMapper.selectByExample(example);
+            if (users.size() != 0){
+                return new SimpleResult(ERRORCODE.AREADY_EXIST_USERNAME);
+            }else {
+                User user = new User();
+                user.setJobNo(jobNo);
+                user.setUsername(userName);
+                user.setPassword(passWord);
+                user.setLevel(1);
+                userMapper.insertSelective(user);
+                return new SimpleResult();
+            }
+        }catch (Exception e){
+            logger.info("注册异常",e);
+            return new SimpleResult(ERRORCODE.COMMON);
+        }
+    }
 
     @Override
     public SimpleResult updateUser(Integer id, String jobNo, String userName, String phone, String wxNo, String email, String department) {
@@ -48,11 +127,13 @@ public class UserServiceImpl implements UserService {
                 simpleResult.setSuccess(true);
             }
         }catch (Exception e){
+            logger.info("更新用户信息发生异常",e);
             simpleResult.setResMsg(ERRORCODE.COMMON.errMsg);
             simpleResult.setSuccess(false);
         }
         return simpleResult;
     }
+
 
     @Override
     public DataResult validateUser(String jobNo, String password) {
@@ -64,6 +145,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userMapper.selectByExample(example);
         }catch (Exception e){
+            logger.info("用户认证发生异常",e);
             return DataResult.fixedError(ERRORCODE.COMMON);
         }
         if (user.size() == 1){
@@ -71,6 +153,7 @@ public class UserServiceImpl implements UserService {
                 dataResult.setData(user);
                 return dataResult;
             }else {
+                logger.info("用户认证错误,jobNo={}",jobNo);
                 return DataResult.fixedError(ERRORCODE.WRONG_PASSWORD);
             }
         }
@@ -78,16 +161,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DataResult getMyAchievement(Integer id, String userName) {
+    public DataResult getMyAchievement(Integer id, String userName,String title) {
         DataResult dataResult = new DataResult();
-        List<SingleAchievement> achievements = null;
+        List<SingleAchievement> achievements;
         try {
-            List<Map> list = achievementMapper.qryResultWithPaper(id);
+            if (title != null){
+                title = '%' + title + '%';
+            }
+            List<Map> list = achievementMapper.qryResultWithPaper(id,title);
             achievements = new ArrayList<>();
             for (Map map : list){
                 SingleAchievement achievement = new SingleAchievement();
                 achievement.setUserName(userName);
-                achievement.setTotalScore(String.valueOf(map.get("manul_score")));
+                achievement.setTotalScore(String.valueOf(map.get("score")));
                 achievement.setExamTitle((String)map.get("title"));
                 String startTime = String.valueOf(map.get("start_time"));
                 startTime = startTime.substring(0,startTime.length() - 2);
@@ -98,7 +184,7 @@ public class UserServiceImpl implements UserService {
                 achievements.add(achievement);
             }
         }catch (Exception e){
-            System.out.print(e);
+            logger.info("获取成绩异常",e);
             return DataResult.fixedError(ERRORCODE.COMMON);
         }
         dataResult.setData(achievements);
@@ -123,90 +209,10 @@ public class UserServiceImpl implements UserService {
                 return dataResult;
             }
         }catch (Exception e){
+            logger.info("修改密码异常",e);
             return DataResult.fixedError(ERRORCODE.COMMON);
         }
         return DataResult.fixedError(ERRORCODE.WRONG_USERNAME_OR_PASSWORD);
     }
 
-    //    @Override
-//    public int addAccount(User user) {
-//        user.setAvatarImgUrl(QexzConst.DEFAULT_AVATAR_IMG_URL);
-//        return userMapper.insertAccount(user);
-//    }
-//
-//    @Override
-//    public boolean updateAccount(User user) {
-//        return userMapper.updateAccountById(user) > 0;
-//    }
-//
-//    @Override
-//    public boolean updateAvatarImgUrlById(String avatarImgUrl, int id) {
-//        return userMapper.updateAvatarImgUrlById(avatarImgUrl, id) > 0;
-//    }
-//
-//    @Override
-//    public User getAccountByUsername(String username) {
-//        return userMapper.getAccountByUsername(username);
-//    }
-//
-//    @Override
-//    public List<User> getAccountsByStudentIds(List<Integer> studentIds) {
-//        return userMapper.getAccountsByIds(studentIds);
-//    }
-//
-//    @Override
-//    public Map<String, Object> getAccounts(int pageNum, int pageSize) {
-//        Map<String, Object> data = new HashMap<>();
-//        int count = userMapper.getCount();
-//        if (count == 0) {
-//            data.put("pageNum", 0);
-//            data.put("pageSize", 0);
-//            data.put("totalPageNum", 1);
-//            data.put("totalPageSize", 0);
-//            data.put("accounts", new ArrayList<>());
-//            return data;
-//        }
-//        int totalPageNum = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
-//        if (pageNum > totalPageNum) {
-//            data.put("pageNum", 0);
-//            data.put("pageSize", 0);
-//            data.put("totalPageNum", totalPageNum);
-//            data.put("totalPageSize", 0);
-//            data.put("accounts", new ArrayList<>());
-//            return data;
-//        }
-//        PageHelper.startPage(pageNum, pageSize);
-//        List<User> users = userMapper.getAccounts();
-//        data.put("pageNum", pageNum);
-//        data.put("pageSize", pageSize);
-//        data.put("totalPageNum", totalPageNum);
-//        data.put("totalPageSize", count);
-//        data.put("accounts", users);
-//        return data;
-//    }
-//
-//    @Override
-//    public boolean deleteAccount(int id) {
-//        return userMapper.deleteAccount(id) > 0;
-//    }
-//
-//    @Override
-//    public boolean disabledAccount(int id) {
-//        return userMapper.updateState(id, 1) > 0;
-//    }
-//
-//    @Override
-//    public boolean abledAccount(int id) {
-//        return userMapper.updateState(id, 0) > 0;
-//    }
-//
-//    @Override
-//    public List<User> getAccountsByIds(Set<Integer> ids) {
-//        return userMapper.getAccountsByIdSets(ids);
-//    }
-//
-//    @Override
-//    public User getAccountById(int id) {
-//        return userMapper.getAccountById(id);
-//    }
 }

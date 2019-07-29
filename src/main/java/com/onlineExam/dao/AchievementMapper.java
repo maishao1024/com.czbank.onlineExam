@@ -11,7 +11,9 @@ import tk.mybatis.mapper.common.MySqlMapper;
 
 public interface AchievementMapper extends Mapper<Achievement>, MySqlMapper<Achievement> {
 
-    List<Map> qryResultWithPaper(@Param("userId")Integer userId);
+    List<Map> qryAchievementsSpecial(@Param("jobNo")String jobNo,@Param("userName")String userName,@Param("title")String title);
+
+    List<Map> qryResultWithPaper(@Param("userId")Integer userId,@Param("title")String title);
 
     int countByExample(AchievementExample example);
 

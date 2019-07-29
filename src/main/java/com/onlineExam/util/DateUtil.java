@@ -46,32 +46,4 @@ public class DateUtil {
         return now;
     }
 
-    public static Integer getAge(Date date){
-        return getCurrentAge(new Date(),date);
-    }
-
-    public static Integer getCurrentAge(Date toDate,Date fromDate){
-        String nowYear = DateUtil.DateToString(toDate,"yyyy").replace("-","");
-        String oldYear = DateUtil.DateToString(fromDate,"yyyy").replace("-","");
-        return Integer.valueOf(String.valueOf(new BigDecimal(nowYear).subtract(new BigDecimal(oldYear).add(new BigDecimal(1)))));
-    }
-
-    public static String getDistance(Date date1,Date date2){
-        Long diff = date2.getTime() - date1.getTime();
-        if (diff > 0) {
-            Long min = diff / NM;
-            long minute = min / 60;
-            long second = min % 60;
-            String minStr = minute + "";
-            String secStr = second + "";
-            if (minute < 10L){
-                minStr = "0" + minStr;
-            }
-            if (second < 10L){
-                secStr = "0" + secStr;
-            }
-            return minStr + ":" + secStr;
-        }else
-            return "--:--";
-    }
 }
