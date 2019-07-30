@@ -11,7 +11,6 @@ import tk.mybatis.mapper.common.MySqlMapper;
 public interface PaperMapper extends Mapper<Paper>, MySqlMapper<Paper> {
     int countByExample(PaperExample example);
 
-
     List<Paper> selectByExample(PaperExample example);
 
     int updateByExampleSelective(@Param("record") Paper record, @Param("example") PaperExample example);

@@ -13,19 +13,15 @@ public interface AchievementMapper extends Mapper<Achievement>, MySqlMapper<Achi
 
     List<Map> qryAchievementsSpecial(@Param("jobNo")String jobNo,@Param("userName")String userName,@Param("title")String title);
 
-    List<Map> qryResultWithPaper(@Param("userId")Integer userId,@Param("title")String title);
+    List<Map> qryResultWithPaper(@Param("userId")Integer id,@Param("title")String title);
 
     int countByExample(AchievementExample example);
 
     int deleteByExample(AchievementExample example);
 
-    List<Achievement> selectByExampleWithBLOBs(AchievementExample example);
-
     List<Achievement> selectByExample(AchievementExample example);
 
     int updateByExampleSelective(@Param("record") Achievement record, @Param("example") AchievementExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Achievement record, @Param("example") AchievementExample example);
 
     int updateByExample(@Param("record") Achievement record, @Param("example") AchievementExample example);
 }

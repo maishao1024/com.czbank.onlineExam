@@ -4,15 +4,12 @@ import com.onlineExam.dao.AchievementMapper;
 import com.onlineExam.dto.DataResult;
 import com.onlineExam.dto.UserResult;
 import com.onlineExam.exception.ERRORCODE;
-import com.onlineExam.model.User;
-import com.onlineExam.model.example.UserExample;
 import com.onlineExam.service.AchievementService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,6 @@ public class AchievementServiceImpl implements AchievementService{
 
     @Autowired
     private AchievementMapper achievementMapper;
-
 
     @Override
     public DataResult getAchievements(String jobNo, String userName, String title) {

@@ -41,6 +41,12 @@ public class Achievement {
     private Integer manulScore;
 
     /**
+     * 考试作答答案json
+     */
+    @Column(name = "answer_json")
+    private String answerJson;
+
+    /**
      * 考试交卷时间
      */
     @Column(name = "create_time")
@@ -53,15 +59,9 @@ public class Achievement {
     private Date finishTime;
 
     /**
-     * 0表示已交卷但是未评卷,1表示已交卷已评卷
+     * 0表示未交卷，1表示已交卷
      */
     private Integer state;
-
-    /**
-     * 考试作答答案json
-     */
-    @Column(name = "answer_json")
-    private String answerJson;
 
     /**
      * 获取主键ID
@@ -172,6 +172,24 @@ public class Achievement {
     }
 
     /**
+     * 获取考试作答答案json
+     *
+     * @return answer_json - 考试作答答案json
+     */
+    public String getAnswerJson() {
+        return answerJson;
+    }
+
+    /**
+     * 设置考试作答答案json
+     *
+     * @param answerJson 考试作答答案json
+     */
+    public void setAnswerJson(String answerJson) {
+        this.answerJson = answerJson;
+    }
+
+    /**
      * 获取考试交卷时间
      *
      * @return create_time - 考试交卷时间
@@ -208,38 +226,20 @@ public class Achievement {
     }
 
     /**
-     * 获取0表示已交卷但是未评卷,1表示已交卷已评卷
+     * 获取0表示未交卷，1表示已交卷
      *
-     * @return state - 0表示已交卷但是未评卷,1表示已交卷已评卷
+     * @return state - 0表示未交卷，1表示已交卷
      */
     public Integer getState() {
         return state;
     }
 
     /**
-     * 设置0表示已交卷但是未评卷,1表示已交卷已评卷
+     * 设置0表示未交卷，1表示已交卷
      *
-     * @param state 0表示已交卷但是未评卷,1表示已交卷已评卷
+     * @param state 0表示未交卷，1表示已交卷
      */
     public void setState(Integer state) {
         this.state = state;
-    }
-
-    /**
-     * 获取考试作答答案json
-     *
-     * @return answer_json - 考试作答答案json
-     */
-    public String getAnswerJson() {
-        return answerJson;
-    }
-
-    /**
-     * 设置考试作答答案json
-     *
-     * @param answerJson 考试作答答案json
-     */
-    public void setAnswerJson(String answerJson) {
-        this.answerJson = answerJson;
     }
 }

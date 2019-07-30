@@ -465,6 +465,76 @@ public class AchievementExample {
             return (Criteria) this;
         }
 
+        public Criteria andAnswerJsonIsNull() {
+            addCriterion("answer_json is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonIsNotNull() {
+            addCriterion("answer_json is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonEqualTo(String value) {
+            addCriterion("answer_json =", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonNotEqualTo(String value) {
+            addCriterion("answer_json <>", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonGreaterThan(String value) {
+            addCriterion("answer_json >", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonGreaterThanOrEqualTo(String value) {
+            addCriterion("answer_json >=", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonLessThan(String value) {
+            addCriterion("answer_json <", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonLessThanOrEqualTo(String value) {
+            addCriterion("answer_json <=", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonLike(String value) {
+            addCriterion("answer_json like", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonNotLike(String value) {
+            addCriterion("answer_json not like", value, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonIn(List<String> values) {
+            addCriterion("answer_json in", values, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonNotIn(List<String> values) {
+            addCriterion("answer_json not in", values, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonBetween(String value1, String value2) {
+            addCriterion("answer_json between", value1, value2, "answerJson");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnswerJsonNotBetween(String value1, String value2) {
+            addCriterion("answer_json not between", value1, value2, "answerJson");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
